@@ -8,7 +8,7 @@ let fast = fastify({
 /*
  * Data is written as modified csv, using the following format:
  * Coords are written after each other: x1,y1,x2,y2,x3,y3,...
- * Each path is separated by a pair of x: x1,y1,x2,y2,x,x,x1,y1,x2,y2,...
+ * Each path is separated by a x: x1,y1,x2,y2,x,x1,y1,x2,y2,...
  */
 
 const path = "../data.csv";
@@ -35,7 +35,7 @@ function writeDataToStream(paths: Array<Path>): void {
         path.path.forEach(coord => {
             line += coord.x + "," + coord.y + ",";
         });
-        line += "x,x,";
+        line += "x,";
     });
 
     if (line.length > 0) line = line.substr(0, line.length - 1);
