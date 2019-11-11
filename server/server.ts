@@ -2,7 +2,8 @@ import fastify from "fastify";
 import fs from "fs";
 
 let fast = fastify({
-    logger: true
+    logger: true,
+    ignoreTrailingSlash: true
 });
 
 /*
@@ -24,15 +25,11 @@ type Coord = {
     y: number
 }
 
-type Path = {
-    path: Array<Coord>
-}
-
-function writeDataToStream(paths: Array<Path>): void {
+function writeDataToStream(paths: Array<Array<Coord>>): void {
     let line = "";
 
     paths.forEach(path => {
-        path.path.forEach(coord => {
+        path.forEach(coord => {
             line += coord.x + "," + coord.y + ",";
         });
         line += "x,";
@@ -45,13 +42,18 @@ function writeDataToStream(paths: Array<Path>): void {
     writeStream.write(line, "utf8");
 }
 
-fast.post("/data", (req, res) => {
-    let paths = req.body.touchPaths;
+fast.post("/data", async (req, res) => {
+    let paths = req.body;
     writeDataToStream(paths);
-    res.send();
+    return;
 });
 
-fast.listen(3000, (err, address) => {
-    if (err) throw err;
-    console.log(`server listening on ${address}`);
-});
+const start = async () => {
+    try {
+        await fast.listen(3000, "0.0.0.0");
+        console.log(`server listening on ${3000}`);
+    } catch (e) {
+        console.log(e);
+    }
+};
+start();
