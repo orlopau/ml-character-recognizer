@@ -2,11 +2,14 @@
   "name": "server",
   "version": "1.0.0",
   "description": "server collecting gesture data",
-  "main": "index.js",
+  "main": "server.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "orlopau",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "polka": "^0.5.2"
+  }
 }
