@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import fs from "fs";
+import {transformToCSV, WritingQueue} from "./dataHandler";
 
 let fast = fastify({
     logger: true,
@@ -8,43 +9,26 @@ let fast = fastify({
 
 /*
  * Data is written as modified csv, using the following format:
+ * The drawn Character is represented by a Char at the beginning of the entry.
  * Coords are written after each other: x1,y1,x2,y2,x3,y3,...
- * Each path is separated by a x: x1,y1,x2,y2,x,x1,y1,x2,y2,...
+ * Each path is separated by a x: A,x1,y1,x2,y2,x,x1,y1,x2,y2,...
  */
 
-const path = "../data.csv";
+/* Checks if directory exists, if not creates it. */
+const dataDir = "../data/";
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
 
-if (!fs.existsSync(path)){
-    fs.openSync(path, "w");
-}
-
-let writeStream = fs.createWriteStream(path);
-
-type Coord = {
-    x: number,
-    y: number
-}
-
-function writeDataToStream(paths: Array<Array<Coord>>): void {
-    let line = "";
-
-    paths.forEach(path => {
-        path.forEach(coord => {
-            line += coord.x + "," + coord.y + ",";
-        });
-        line += "x,";
-    });
-
-    if (line.length > 0) line = line.substr(0, line.length - 1);
-
-    line += "\n";
-
-    writeStream.write(line, "utf8");
-}
+let dao = new WritingQueue(dataDir, 10000);
 
 fast.post("/data", async (req, res) => {
-    let paths = req.body;
-    writeDataToStream(paths);
+    let paths = req.body.paths;
+    let char = req.body.char;
+
+    if (!char || !paths) {
+        res.status(400);
+    } else {
+        dao.add(transformToCSV(paths, char));
+    }
     return;
 });
 
