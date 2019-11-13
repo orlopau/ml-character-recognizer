@@ -1,6 +1,6 @@
 import fastify from "fastify";
 import fs from "fs";
-import {transformToCSV, WritingQueue} from "./dataHandler";
+import {TrainingDataHandler} from "./dataHandler";
 
 let fast = fastify({
     logger: true,
@@ -18,20 +18,21 @@ let fast = fastify({
 const dataDir = "../data/";
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
 
-let dao = new WritingQueue(dataDir, 10000);
+let trainingHandler = new TrainingDataHandler(dataDir, 10000);
 
 fast.post("/data", async (req, res) => {
     let paths = req.body.paths;
-    let char = req.body.character;
+    let char: string = req.body.character;
 
-    if (!char || !paths) {
+    try {
+        trainingHandler.saveData(char, paths);
+        res.send(JSON.stringify({
+            nextChar: trainingHandler.getMostNeededChar()
+        }));
+    } catch (e) {
         res.status(400);
-    } else {
-        dao.add(transformToCSV(paths, char));
-        res.status(200);
+        res.send(e);
     }
-
-    res.send();
 });
 
 const start = async () => {
