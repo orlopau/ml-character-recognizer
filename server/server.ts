@@ -37,8 +37,8 @@ fast.post("/data", async (req, res) => {
 
 const start = async () => {
     try {
-        await fast.listen(3000, "0.0.0.0");
-        console.log(`server listening on ${3000}`);
+        await fast.listen(8080, "0.0.0.0");
+        console.log(`server listening on ${8080}`);
     } catch (e) {
         console.log(e);
     }
