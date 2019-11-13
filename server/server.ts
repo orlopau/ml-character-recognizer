@@ -26,13 +26,19 @@ fast.post("/data", async (req, res) => {
 
     try {
         trainingHandler.saveData(char, paths);
-        res.send(JSON.stringify({
+        res.send({
             nextChar: trainingHandler.getMostNeededChar()
-        }));
+        });
     } catch (e) {
         res.status(400);
         res.send(e);
     }
+});
+
+fast.get("/nextChar", async (req, res) => {
+   res.send({
+       nextChar: trainingHandler.getMostNeededChar()
+   });
 });
 
 const start = async () => {
