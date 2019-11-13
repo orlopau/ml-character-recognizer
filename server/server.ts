@@ -22,14 +22,16 @@ let dao = new WritingQueue(dataDir, 10000);
 
 fast.post("/data", async (req, res) => {
     let paths = req.body.paths;
-    let char = req.body.char;
+    let char = req.body.character;
 
     if (!char || !paths) {
         res.status(400);
     } else {
         dao.add(transformToCSV(paths, char));
+        res.status(200);
     }
-    return;
+
+    res.send();
 });
 
 const start = async () => {
