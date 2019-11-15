@@ -1,0 +1,25 @@
+name: Publish Docker image
+
+on:
+  push:
+    branches: 
+      - master
+    paths:
+      - 'server/*'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Build the Docker image
+      run: docker build ./server/ --file Dockerfile --tag mlchar-server
+    - name: Publish Docker
+      run: |
+        docker login docker.pkg.github.com -u orlopau -p ${{ secrets.GITHUB_TOKEN }}
+        docker tag mlchar-server docker.pkg.github.com/nadeldrucker/mlchargestures/mlchar-server:1.0
+        docker push docker.pkg.github.com/nadeldrucker/mlchargestures/mlchar-server:1.0 
+
