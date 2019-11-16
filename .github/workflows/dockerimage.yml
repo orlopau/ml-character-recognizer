@@ -19,7 +19,7 @@ jobs:
       run: docker build server/ --tag mlchar-server
     - name: Publish Docker
       run: |
-        docker login docker.pkg.github.com -u orlopau -p ${{ secrets.GITHUB_TOKEN }}
-        docker tag mlchar-server docker.pkg.github.com/nadeldrucker/mlchargestures/mlchar-server:latest
-        docker push docker.pkg.github.com/nadeldrucker/mlchargestures/mlchar-server:latest
+        docker login -u orlopau -p ${{ secrets.DOCKER_HUB }}
+        docker tag mlchar-server orlopau/mlchar-server:latest
+        docker push orlopau/mlchar-server:latest
 
