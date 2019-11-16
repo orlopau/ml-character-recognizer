@@ -1,4 +1,4 @@
 data.csv
 node_modules
-/dist
-/data
+dist
+data

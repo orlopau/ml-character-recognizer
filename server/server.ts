@@ -1,6 +1,6 @@
 import fastify from "fastify";
 import fs from "fs";
-import {TrainingDataHandler} from "./dataHandler";
+import {TrainingDataHandler} from "./util/dataHandler";
 
 let fast = fastify({
     logger: true,
