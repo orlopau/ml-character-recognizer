@@ -2,10 +2,12 @@ import fastify from "fastify";
 import fs from "fs";
 import {TrainingDataHandler} from "./util/dataHandler";
 
+
 let fast = fastify({
     logger: true,
     ignoreTrailingSlash: true
 });
+
 
 /*
  * Data is written as modified csv, using the following format:
