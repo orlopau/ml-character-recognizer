@@ -3,6 +3,7 @@
 ## Server
 
 * Stores training touch paths in a csv file.
+* [Docker image](https://hub.docker.com/repository/docker/orlopau/mlchar-server) available on Docker Hub
 
 ## ML
 
