@@ -25,9 +25,10 @@ let trainingHandler = new TrainingDataHandler(dataDir, 10000);
 fast.post("/data", async (req, res) => {
     let paths = req.body.paths;
     let char: string = req.body.character;
+    let id: string = req.body.userId;
 
     try {
-        trainingHandler.saveData(char, paths);
+        trainingHandler.saveData(char, paths, id);
         res.send({
             nextChar: trainingHandler.getMostNeededChar()
         });

@@ -32,18 +32,15 @@ class TrainingDataHandler {
      * Saves data to disk
      * @param char label char
      * @param paths paths
+     * @param userId
      */
-    saveData(char: string, paths: Array<Array<Coordinate>>) {
-        if (!char || !paths) throw new Error("Char or path can't be null!");
-
-        paths.forEach(path => path.forEach(coord => {
-            if (coord.x > 1 || coord.y > 1 || coord.x < 0 || coord.y < 0) throw new Error("Coordinates have to be in range 0...1")
-        }));
+    saveData(char: string, paths: Array<Array<Coordinate>>, userId: string) {
+        if (!char || !paths || !userId) throw new Error("Char, path, id can't be null!");
 
         char = char.toUpperCase();
         if (!this.charactersSaved.has(char)) throw new Error("Char is not included in alphabet!");
 
-        this.dao.add(this.transformToCSV(char, paths));
+        this.dao.add(this.transformToCSV(char, paths, userId));
         this.charactersSaved.set(char, this.charactersSaved.get(char)! + 1);
     }
 
@@ -67,11 +64,12 @@ class TrainingDataHandler {
      * Transforms data into a csv formatted line.
      * @param paths - touch paths
      * @param char - character drawn
+     * @param userId
      */
-    private transformToCSV(char: string, paths: Array<Array<Coordinate>>): string {
+    private transformToCSV(char: string, paths: Array<Array<Coordinate>>, userId: string): string {
         if (char.length > 1) throw new Error("Char can only be 1 character long!");
 
-        let line = char.toUpperCase();
+        let line = `${userId},${char.toUpperCase()}`;
 
         paths.forEach(path => {
             path.forEach(coord => {
