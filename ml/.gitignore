@@ -3,3 +3,4 @@ util/imgs
 *.csv
 __pycache__
 imgs/
+*.h5
