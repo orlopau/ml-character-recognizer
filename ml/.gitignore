@@ -2,3 +2,4 @@ venv/
 util/imgs
 *.csv
 __pycache__
+imgs/
