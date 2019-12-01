@@ -70,3 +70,10 @@ model.save('./emnist_cnn.h5')
 
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
+
+# save model as tflite file
+
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+
+open("./emnist_cnn.tflite", "wb").write(tflite_model)

@@ -83,21 +83,30 @@ def calc_center_of_mass(paths):
     return [sum_x / len_coords, sum_y / len_coords]
 
 
-def preprocess_paths(paths, max_x, min_x, max_y, min_y, scale):
+def preprocess_paths(paths, max_x, min_x, max_y, min_y, scale, padding):
     width = max_x - min_x
     height = max_y - min_y
 
-    g_max = max(max_x, max_y)
-    g_min = min(min_x, min_y)
+    rel_pad_x = width * padding
+    rel_pad_y = height * padding
+
+    max_x += rel_pad_x
+    min_x -= rel_pad_x
+
+    max_y += rel_pad_y
+    min_y -= rel_pad_y
+
+    width = max_x - min_x
+    height = max_y - min_y
 
     x_increase = 0
     y_increase = 0
 
-    # fix for character 'I'
+    # square characters
     if height > width:
-        x_increase = height - width
+        x_increase += height - width
     else:
-        y_increase = width - height
+        y_increase += width - height
 
     # normalize all values
     normalized_paths = []

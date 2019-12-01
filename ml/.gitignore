@@ -1,6 +1,7 @@
 venv/
-util/imgs
+imgs
 *.csv
 __pycache__
 imgs/
 *.h5
+*.tflite

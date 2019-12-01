@@ -1,5 +1,5 @@
 from tensorflow import keras
-import image_retriever
+from learning import image_retriever
 
 generators = image_retriever.retrieve_images('../imgs/')
 
