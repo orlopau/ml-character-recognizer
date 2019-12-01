@@ -3,7 +3,7 @@ import tensorflow as tf
 
 # actual learning process
 
-def learn(x_train, y_train, x_test, y_test, epochs=12):
+def learn(x_train, y_train, x_test, y_test, epochs=12, name='model'):
     batch_size = 128
     num_classes = 26
 
@@ -44,7 +44,7 @@ def learn(x_train, y_train, x_test, y_test, epochs=12):
     score = model.evaluate(x_test, y_test, verbose=0)
 
     print("Saving weights...")
-    model.save('./model.h5')
+    model.save("./" + name + ".h5")
 
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
@@ -54,4 +54,4 @@ def learn(x_train, y_train, x_test, y_test, epochs=12):
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
     tflite_model = converter.convert()
 
-    open("./model.tflite", "wb").write(tflite_model)
+    open("./" + name + ".tflite", "wb").write(tflite_model)

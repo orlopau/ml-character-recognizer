@@ -14,4 +14,4 @@ validation_index = int(round(len(data) * validation_split))
 
 print("Should show a " + str(y[14]))
 
-v1.learn(data[:validation_index], y[:validation_index], data[validation_index:], y[validation_index:], epochs=3)
+v1.learn(data[:validation_index], y[:validation_index], data[validation_index:], y[validation_index:], epochs=3, name='kaggle_A_to_Z')

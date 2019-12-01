@@ -80,12 +80,14 @@ def test_tflite_model(path_to_tflite):
 
     plt.xlabel('Predictions')
     plt.ylabel('Number')
-    plt.title(path_to_tflite.split('/')[-1])
+    plt.title(path_to_tflite.split('/')[-1] + "  " + str(round(accuracy, 2)) + "%")
     plt.xticks(index + bar_width, list(string.ascii_uppercase))
     plt.legend()
 
     plt.tight_layout()
-    plt.show()
+
+    name = path_to_tflite.split('/')[-1].split('.')[0]
+    plt.savefig('./doc/' + name + '.png')
 
 
 if __name__ == '__main__':
