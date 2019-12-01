@@ -1,4 +1,4 @@
-import image_retriever
+from learning import image_retriever
 import matplotlib.pyplot as plt
 
 generators = image_retriever.retrieve_images('../imgs/')
