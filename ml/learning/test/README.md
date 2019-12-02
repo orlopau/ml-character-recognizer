@@ -5,3 +5,9 @@
 
 # Kaggle A-to-Z dataset
 ![Chart](./doc/kaggle_A_to_Z.png)
+
+# Actual android data
+
+same as test data!
+
+![Chart](./doc/model.png)
