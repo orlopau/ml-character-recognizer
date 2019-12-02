@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import string
 import glob
+import pandas
+import data_util.transformations as trans
 
 
 def test_tflite_model(path_to_tflite):
@@ -13,47 +15,32 @@ def test_tflite_model(path_to_tflite):
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
 
-    # Test model with data from android paths
-    generators = image_retriever.retrieve_images('../../imgs/')
-    # use train generator, doesnt really matter, actually just gets images in a valid format
-    trainer = generators['validation']
+    df = pandas.read_csv('../../../datasets/real/dataset.csv').astype('float32')
 
     input_shape = input_details[0]['shape']
+    (x_train, y_train, x_test, y_test) = trans.pandas_df_to_2d(df, validation_split=1)
 
     correct_predictions = np.zeros(26)
     wrong_predictions = np.zeros(26)
 
-    batch_index = 0
-    number_of_test_batches = 200
+    for i in range(0, len(x_train)):
+        print(str(i) + " of " + str(len(x_train)))
 
-    for batch in trainer:
+        input_data = x_train[i]
+        input_data = tf.expand_dims(input_data, 2)
+        input_data = tf.expand_dims(input_data, 0)
+        label = y_train[i]
 
-        batch_index += 1
+        interpreter.set_tensor(input_details[0]['index'], input_data)
+        interpreter.invoke()
+        output_data = interpreter.get_tensor(output_details[0]['index'])
 
-        if batch_index > number_of_test_batches:
-            break
+        predicted = output_data[0].argmax()
 
-        print("Batch number " + str(batch_index))
-
-        data = batch[0]
-        labels = batch[1]
-
-        # iterate over batch
-        for i in range(0, len(data)):
-            img = data[i]
-            input_data = np.array([img])
-
-            interpreter.set_tensor(input_details[0]['index'], input_data)
-            interpreter.invoke()
-            output_data = interpreter.get_tensor(output_details[0]['index'])
-
-            predicted = output_data[0].argmax()
-            actual = labels[i].argmax()
-
-            if predicted == actual:
-                correct_predictions[actual] += 1
-            else:
-                wrong_predictions[actual] += 1
+        if predicted == label:
+            correct_predictions[int(label)] += 1
+        else:
+            wrong_predictions[int(label)] += 1
 
     print("Correctly predicted: " + str(correct_predictions.sum()))
     print("Wrongly predicted: " + str(wrong_predictions.sum()))
