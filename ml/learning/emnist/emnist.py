@@ -1,7 +1,7 @@
 from mlxtend.data import loadlocal_mnist
 from learning.models import v1
 
-path = "../../../data/emnist"
+path = "../../../datasets/emnist"
 print("Path for EMNIST data is " + path)
 
 x_train, y_train = loadlocal_mnist(images_path=path + "/train-images-ubyte", labels_path=path + "/train-labels-ubyte")

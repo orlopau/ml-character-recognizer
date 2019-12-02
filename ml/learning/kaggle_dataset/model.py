@@ -1,7 +1,7 @@
 import pandas
 from learning.models import v1
 
-df = pandas.read_csv('dataset.csv').astype('float32')
+df = pandas.read_csv('../../../datasets/kaggle/dataset.csv').astype('float32')
 df = df.sample(frac=1).reset_index(drop=True)
 
 X = df.drop(df.columns[0], axis=1)
