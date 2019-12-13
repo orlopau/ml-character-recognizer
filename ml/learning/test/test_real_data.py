@@ -1,5 +1,4 @@
 import tensorflow as tf
-from learning import image_retriever
 import matplotlib.pyplot as plt
 import numpy as np
 import string
