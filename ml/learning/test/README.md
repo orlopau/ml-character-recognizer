@@ -12,7 +12,7 @@
 
 ![Chart](./doc/model.png)
 
-**Combined Path dataset to EMNIST dataseit with ratio 1:2**
+**Combined Path dataset to EMNIST dataset with ratio 1:2**
 
 ![Chart](./doc/emnist_combined.png)
 
